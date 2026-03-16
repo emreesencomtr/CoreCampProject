@@ -16,3 +16,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+.card-text {
+    height: 75px;
+    overflow: hidden;
+}
