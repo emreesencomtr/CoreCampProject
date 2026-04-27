@@ -1,46 +1,171 @@
-﻿
+﻿@model EntityLayer.Concrete.Writer
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 
+<style>
+    /* Modern Tasarım CSS Kodları */
+    .modern-register-section {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        padding: 60px 0;
+        min-height: calc(100vh - 100px); /* Sayfa yüksekliğini doldurması için */
+    }
 
-<section class="main-content-w3layouts-agileits">
-	<div class="container">
-		<h3 class="tittle">Yazar Kayıt Sayfası</h3>
-		<div class="inner-sec">
-			<div class="login p-5 bg-light mx-auto mw-100">
-				<form  method="post">
-					<div class="form-row">
-						<div class="col-md-6 mb-3">
-							<label for="validationCustom01">Adınız Soyadınız</label>
+    .modern-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 50px 40px;
+        border: none;
+    }
 
-							<input type="text" class="form-control" id="validationDefault01" name="WriterName" placeholder="" required="">
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="validationCustom02">Mail Adresi</label>
-							<input type="email" class="form-control" name="WriterMail" id="validationDefault02" placeholder="" required="">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="exampleInputPassword1 mb-2">Şifre</label>
-							<input type="password" class="form-control" name="WriterPassword" id="password1" placeholder="" required="">
-						</div>
-						<div class="form-group col-md-6">
-							<label for="exampleInputPassword2 mb-2">Görsel Dosya Yolu</label>
-							<input type="text" class="form-control" name="WriterImage" id="password2" placeholder="" required="">
-						</div>
-								
-					</div>
-					<button type="submit" class="btn btn-primary submit mb-4">Kayıt Ol</button>
-					<p>
-						<a href="#">Kayıt Ol'a tıklayarak şartlarınızı kabul ediyorum.</a>
-					</p>
-				</form>
-		
-			</div>
-		</div>
-	</div>
+    .modern-title {
+        font-weight: 600;
+        color: #2b3445;
+        margin-bottom: 35px;
+        text-align: center;
+        font-size: 28px;
+    }
+
+    .modern-label {
+        font-weight: 500;
+        color: #4a5568;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .modern-input {
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        padding: 12px 16px;
+        height: auto;
+        font-size: 15px;
+        color: #2d3748;
+        transition: all 0.3s ease;
+        background-color: #fcfcfc;
+    }
+
+    .modern-input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        background-color: #ffffff;
+        outline: none;
+    }
+
+    .modern-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 14px;
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        color: #ffffff;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .modern-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(118, 75, 162, 0.3);
+        color: #ffffff;
+    }
+
+    .terms-wrapper {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .terms-link {
+        font-size: 14px;
+        color: #718096;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .terms-link strong {
+        color: #764ba2;
+    }
+
+    .terms-link:hover {
+        color: #2d3748;
+        text-decoration: none;
+    }
+
+    .text-danger {
+        font-size: 13px;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
+
+<section class="modern-register-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="modern-card">
+                    <h3 class="modern-title">Yazar Kayıt Sayfası</h3>
+                    
+                    @using (Html.BeginForm("Index", "Register", FormMethod.Post))
+                    {
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="modern-label" for="WriterName">Adınız Soyadınız</label>
+                                @Html.TextBoxFor(x => x.WriterName, new { @class = "form-control modern-input", placeholder = "Ad Soyad giriniz" })
+                                @Html.ValidationMessageFor(x => x.WriterName, "", new { @class = "text-danger" })
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label class="modern-label" for="WriterMail">E-Posta Adresi</label>
+                                @Html.TextBoxFor(x => x.WriterMail, new { @class = "form-control modern-input", placeholder = "ornek@mail.com" })
+                                @Html.ValidationMessageFor(x => x.WriterMail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="modern-label" for="WriterPassword">Şifre</label>
+                                @Html.PasswordFor(x => x.WriterPassword, new { @class = "form-control modern-input", placeholder = "Güçlü bir şifre belirleyin" })
+                                @Html.ValidationMessageFor(x => x.WriterPassword, "", new { @class = "text-danger" })
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label class="modern-label" for="WriterImage">Görsel Dosya Yolu</label>
+                                @Html.TextBoxFor(x => x.WriterImage, new { @class = "form-control modern-input", placeholder = "Örn: /images/profil.jpg" })
+                                @Html.ValidationMessageFor(x => x.WriterImage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn modern-btn">Kayıt Ol</button>
+
+                        <div class="terms-wrapper">
+                            <a href="javascript:void(0);" id="btn1" class="terms-link">
+                                Kayıt Ol'a tıklayarak site şartlarını <strong>kabul ediyorum.</strong>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+<script>
+    $(document).ready(function () {
+        $('#btn1').click(function () {
+            swal({
+                title: "Site Kabul Şartları!",
+                text: "Platformumuza kayıt olarak, kullanıcı sözleşmesini ve kişisel verilerinizin KVKK kapsamında işlenmesini kabul etmiş sayılırsınız. Yazar olarak paylaştığınız içeriklerin telif hakları ve topluluk kurallarımıza uyum konusundaki sorumluluk tarafınıza aittir.",
+                icon: "success",
+                button: "Anladım",
+            });
+        });
+    });
+</script>
