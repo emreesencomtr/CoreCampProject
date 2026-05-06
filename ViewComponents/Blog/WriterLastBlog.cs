@@ -2,16 +2,15 @@
 using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoreCampProject.ViewComponents.Blog
-{
-    public class WriterLastBlog:ViewComponent
-    {
-        BlogManager bm = new BlogManager(new EfBlogRepository());
+namespace CoreCampProject.ViewComponents.Blog;
 
-        public IViewComponentResult Invoke()
-        {
-            var values = bm.GetBlogListByWriter(3);
-            return View(values);
-        }
+public class WriterLastBlog:ViewComponent
+{
+    BlogManager bm = new BlogManager(new EfBlogRepository());
+
+    public IViewComponentResult Invoke()
+    {
+        var values = bm.GetBlogListByWriter(3);
+        return View(values);
     }
 }

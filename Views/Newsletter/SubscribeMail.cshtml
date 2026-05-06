@@ -1,0 +1,54 @@
+﻿
+
+<div class="tech-btm">
+	<h4>Bültenimize abone olun</h4>
+	<p>Teknoloji, yazılım ve diğer bloglar 🤗 </p>
+	<form id="subscribeForm" action="/Newsletter/SubscribeMail/" method="post">
+		<input type="email" placeholder="Email" required="" name="Mail" id="mailInput">
+		<input type="submit" value="Abone Ol">
+	</form>
+	<div id="resultMessage" style="margin-top: 15px; font-weight: bold; font-size: 14px; display: none;"></div>
+</div>
+
+<script>
+    // Formu yakalıyoruz
+    document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+        
+        // 1. ÖNEMLİ: Formun sayfayı yenilemesini (varsayılan davranışı) engelliyoruz
+        e.preventDefault();
+
+        // 2. Formdaki verileri ve sonuç mesajı kutusunu ayarlıyoruz
+        const form = this;
+        const formData = new FormData(form);
+        const resultMessage = document.getElementById('resultMessage');
+
+        // Kullanıcıya "Bekleyin" mesajı gösterelim
+        resultMessage.style.display = 'block';
+        resultMessage.style.color = '#888';
+        resultMessage.innerText = 'İşleminiz yapılıyor, lütfen bekleyin...';
+
+        // 3. Veriyi arka planda sunucuya gönderiyoruz (AJAX / Fetch API)
+        fetch(form.action, {
+            method: form.method,
+            body: formData
+        })
+        .then(response => {
+            // Sunucudan (Backend'den) gelen cevap başarılıysa (Örn: HTTP 200 OK)
+            if (response.ok) {
+                resultMessage.style.color = '#00d166'; // Başarılı yeşili (Buton renginiz)
+                resultMessage.innerText = 'Bültene başarıyla abone oldunuz! 🎉';
+                form.reset(); // İşlem bitince kutunun içini temizle
+            } else {
+                // Sunucuda bir hata olduysa (Örn: Aynı mail kayıtlı)
+                resultMessage.style.color = '#e74c3c'; // Hata kırmızısı
+                resultMessage.innerText = 'Bir hata oluştu veya bu mail zaten kayıtlı.';
+            }
+        })
+        .catch(error => {
+            // İnternet kopması gibi sistemsel hatalar
+            resultMessage.style.color = '#e74c3c';
+            resultMessage.innerText = 'Bağlantı hatası oluştu. Lütfen tekrar deneyin.';
+            console.error('AJAX Hatası:', error);
+        });
+    });
+</script>
